@@ -1,0 +1,156 @@
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gate.io Custom Bot</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>  
+    <script src="/static/ajax.js"></script>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <!-- <script src="exchangeInfo.js"></script> -->
+</head>
+<body>
+  <div class="container">
+  <div>
+    <br>
+    <input type="search" onkeyup="LoadCharts();"id="pairs" value="BTCUSDT" placeholder="Symbol search" onkeypress="upperCase();">
+    <br>
+
+  
+<div class="tradingview-widget-container" id="tvchart"></div>
+<section class="three">
+    
+  <form action="/saved" method="POST" class="form">
+    
+    <h3 > Custom Spot Grid</h3>
+    
+    <br>
+    <!-- <label name = "symbol">Symbol: </label>
+    <input type="text" name="symbol"  value="BTCUSDT" placeholder=" Enter Symbol"  id="symbol"  required > -->
+
+    <label name="Highest">high price: </label>
+    <input type="number" name="Highest"   placeholder="Highest Price" id="Highest" required  >
+
+    <label name="Lowest">low price: </label>
+    <input type="number" name="Lowest"   placeholder="Lowest Price" id="Lowest" required   onmouseleave="calc();">
+    <label name="Grid">Grid: </label>
+    <input type="number" name="Grid"   placeholder=" number Grid" id="Grid" required max="10" min="1" value="2">
+    <label name="percentage">percentage:% </label>
+    <input type="number" name="percentage"   placeholder=" percentage %" id="percentage" required max="100" min="1"   onmouseleave="calc();">
+    <label name="Amount">Amount: </label>
+    <input type="number" name="Amount"   placeholder=" Amount in USDT" id="Amount" required max="1000" min="6" value="20">
+    <div class="available">
+      <p class="selectType active"><a >USDT</a></p>
+      <p class="selectType"> <a >USDT+COIN</a></p>
+      
+    </div>
+    <div class="slidecontainer">
+    <label for="Amount" id="AmountLabel" >Amount %: </label>
+    <input type="range" min="1" max="100" value="20" class="slider" id="myRange">
+    <p>Value: <span id="demo"></span></p>
+    </div>
+  
+
+    <div class="available">
+      <p>Available</p>
+      <br>
+      <p id="usdt-amount">50 Usdt</p>
+      
+
+    </div>
+
+    <label>Trigger price: </label>
+    <input type="number" name="Trigger" id="Trigger" value="" placeholder="Trigger price" max="100000" min="0">
+
+
+   
+
+    <div class="Invest">
+
+      <input type="checkbox" id="hideAmount" name="total">
+      <p id="invest">Auto Invest</p>
+    </div>
+
+    
+    <button type="submit" id="submit">Create</button>
+   
+    
+  </form>
+
+
+</section>
+  <!-- <h3 id = "text"></h3> -->
+  <!-- <ul class="timeframe">
+    <li id="5m" onclick="getTimeframe(this)">5m</li>
+    <li id="15m" onclick="getTimeframe(this)">15m</li>
+    <li id="30m" onclick="getTimeframe(this)">30m</li>
+    <li class="hour" onclick="getTimeframe(this)">1h</li>
+    <li id="4h" onclick="getTimeframe(this)">4h</li>
+    <li id="1d" onclick="getTimeframe(this)">1d</li>
+  </ul> -->
+<!-- <section class="for"> -->
+    
+
+    <!-- <p class="l">Limit orders list</p>
+    <nav class="navbar">
+      <ul class="nav-list">
+        <li class="nav"><a href="#">date</a></li> 
+        <li class="nav"><a href="#">symbol</a></li>
+        <li class="nav"><a href="#">price</a></li>
+        <li class="nav"><a href="#">type</a></li> 
+        <li class="nav"><a href="#">amount</a></li>
+      </ul>
+    </nav> -->
+    <!-- <div id = 'table-data'>
+
+      
+    </div> -->
+    
+  
+<!-- </section>  -->
+  </div>
+</body>
+
+<script>
+
+
+var slider = document.getElementById("myRange");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value;
+
+slider.oninput = function() {
+  output.innerHTML = this.value+"%";
+}
+function LoadCharts(){
+    let symbol = document.getElementById('pairs').value;
+    if (symbol ==""){
+      symbol = "BTCUSDT";
+
+    }
+    //RENDER CHART
+    new TradingView.widget(
+      {
+  "width": "980",
+  "height": "800",
+  "symbol": "BINANCE:" + symbol,
+  "interval": "5",
+  "timezone": "Etc/UTC",
+  "theme": "dark",
+  "style": "1",
+  "locale": "in",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": false,
+  "allow_symbol_change": true,
+  "hide_side_toolbar": false,
+  "studies": [
+    "STD;EMA"
+    
+  ],
+  "container_id": "tvchart"
+    });
+}
+LoadCharts();    
+
+</script>
+</html>
